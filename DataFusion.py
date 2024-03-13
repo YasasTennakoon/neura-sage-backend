@@ -1,11 +1,9 @@
 from joblib import load
-from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.models import load_model
 import pandas as pd
 import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
-from tensorflow.keras.layers import Lambda, Input
-from tensorflow.keras.models import Model
 import os
 
 # The following Includes the path representations of the Models
