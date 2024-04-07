@@ -1,12 +1,13 @@
 from flask import Flask, request, jsonify
 from DataFusion import dataFusion 
-# Make sure to import this
+from DataFusion import imageAnalysis
 from werkzeug.utils import secure_filename
 import os
 import json
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/disease/diagnose', methods=['POST'])
 def diagnose_patient():
@@ -33,6 +34,20 @@ def diagnose_patient():
 
     diagnosis_result = dataFusion(data, save_path)
     return jsonify({'diagnosis': diagnosis_result})
+
+@app.route('/disease/image/diagnosis', methods=['POST'])
+def diagnose_patient_image():
+
+    data = request.form
+    image = request.files['image']
+
+    # Saving the image to get the respective path
+    filename = secure_filename(image.filename)
+    save_path = os.path.join('UplodedImages', filename)
+    image.save(save_path)
+
+    diagnosis_result = imageAnalysis(save_path)
+    return jsonify({'diagnosis': diagnosis_result})   
 
 
 if __name__ == '__main__':
